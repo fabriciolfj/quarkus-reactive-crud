@@ -1,16 +1,26 @@
 package github.com.fabriciolfj.services;
 
 import github.com.fabriciolfj.entities.Product;
+import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
+import java.util.List;
 
 @Slf4j
 @ApplicationScoped
 public class ProductService {
+
+    @WithSession
+    public Uni<List<Product>> listProducts() {
+        return Product.<Product>findAll().page(0, 20)
+                .list();
+
+    }
 
     public Uni<Product> findByIdProduct(final Long id) {
         return Product.<Product>findById(id)
