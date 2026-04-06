@@ -31,7 +31,7 @@ public class ProductService {
 
     @WithTransaction
     public Uni<Void> save(final Product product) {
-        return product.persist()
+        return product.<Product>persist()
                 .invoke(prod -> log.info("product save successfully {}", prod))
                 .replaceWithVoid()
                 .onFailure()
