@@ -45,8 +45,7 @@ public class ProductResources {
 
     @POST
     public Uni<Response> createProduct(final Product product) {
-        return Uni.createFrom().item(product)
-                .flatMap(productService::save)
+        return productService.save(product)
                 .onItem().transform(_ -> Response.noContent().build())
                 .onFailure()
                 .recoverWithItem(() -> Response.status(Response.Status.BAD_REQUEST)
